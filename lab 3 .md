@@ -151,3 +151,89 @@ Manhattan Distance: 1
 A* Cost: 1
 
 A* Path: 'Right'
+
+# Exercise 4: Experiment with Different Scramble Depths
+
+We will test both heuristics using different puzzle scramble depths: 5, 10, 15, and 20 moves. We will compare the number of nodes expanded by each heuristic.
+
+```python
+scramble_depths = [5, 10, 15, 20]
+
+for depth in scramble_depths:
+    print("Scramble Depth:", depth)
+```
+```python
+
+import random
+
+def create_scrambled_state(num_moves):
+    state = GOAL_STATE
+    previous_state = None
+
+    for _ in range(num_moves):
+        neighbors = get_neighbors(state)
+
+        possible_states = [
+            neighbor for neighbor, action in neighbors
+            if neighbor != previous_state
+        ]
+
+        next_state = random.choice(possible_states)
+        previous_state = state
+        state = next_state
+
+    return state
+```
+### Run 5 Trials for Each Scramble Depth
+
+```python
+
+results = []
+
+for depth in scramble_depths:
+    for trial in range(1, 6):
+        start_state = create_scrambled_state(depth)
+
+        misplaced_result = a_star_search(
+            start_state, misplaced_tiles
+        )
+
+        manhattan_result = a_star_search(
+            start_state, manhattan_distance
+        )
+
+        results.append({
+            "Depth": depth,
+            "Trial": trial,
+            "Misplaced Nodes": misplaced_result["nodes_expanded"],
+            "Manhattan Nodes": manhattan_result["nodes_expanded"]
+        })
+
+for result in results:
+    print(result)
+
+```
+### Experiment Results
+
+| Scramble Depth | Trial | Misplaced Tiles Nodes | Manhattan Distance Nodes | Solution Cost |
+|---|---|---:|---:|---:|
+| 5 | 1 | 2 | 2 | 1 |
+| 5 | 2 | 2 | 2 | 1 |
+| 5 | 3 | 6 | 6 | 5 |
+| 5 | 4 | 4 | 4 | 3 |
+| 5 | 5 | 4 | 4 | 3 |
+| 10 | 1 | 3 | 3 | 2 |
+| 10 | 2 | 5 | 5 | 4 |
+| 10 | 3 | 6 | 5 | 4 |
+| 10 | 4 | 3 | 3 | 2 |
+| 10 | 5 | 5 | 5 | 4 |
+| 15 | 1 | 4 | 4 | 3 |
+| 15 | 2 | 6 | 6 | 5 |
+| 15 | 3 | 4 | 4 | 3 |
+| 15 | 4 | 6 | 6 | 5 |
+| 15 | 5 | 8 | 7 | 5 |
+| 20 | 1 | 3 | 3 | 2 |
+| 20 | 2 | 9 | 9 | 8 |
+| 20 | 3 | 16 | 10 | 8 |
+| 20 | 4 | 24 | 18 | 8 |
+| 20 | 5 | 16 | 12 | 6 |
