@@ -1,4 +1,4 @@
-# Lab 2 : Uninformed Search — BFS and DFS on a 2D Maze
+## Lab 2 : Uninformed Search — BFS and DFS on a 2D Maze
 
 # Exersice 1 : Compare BFS and DFS
 
